@@ -16,6 +16,11 @@ Clone the repository and Run the script with root privileges:
    sudo ./remove_ms_update.sh
    ```
 
+## Microsoft AutoUpdate Window
+
+![Microsoft AutoUpdate Window](Microfost-AutoUpdate-Window.png)
+
+
 ## Components Removed
 
 - `/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app`
