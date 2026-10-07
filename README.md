@@ -48,4 +48,4 @@ The script is based on the steps in this [OS X Daily guide](https://osxdaily.com
 
 ## License
 
-There is no LICENSE file in this repository yet. The author's intent, as stated in the original README: you are free to use, modify and distribute this script, at your own risk. The authors are not responsible for any misuse or damage caused by it, or for issues caused by missing Office updates.
+MIT. See [LICENSE](LICENSE).
