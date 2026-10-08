@@ -1,44 +1,51 @@
 # Microsoft Update Remover
 
-This project provides a Zsh script to remove Microsoft AutoUpdate components from macOS. It lists the components, asks for user confirmation, and deletes them if confirmed.
+A small zsh script that removes Microsoft AutoUpdate from macOS after showing you what it found and asking for confirmation.
 
-## Features
+## Why
 
-- Lists Microsoft AutoUpdate components
-- Asks for user confirmation before deletion
-- Deletes specified components
+Microsoft Office for Mac installs Microsoft AutoUpdate (MAU), which runs in the background and opens its own window to check for updates:
 
-## Usage
+![The Microsoft AutoUpdate window](Microfost-AutoUpdate-Window.png)
 
-Clone the repository and Run the script with root privileges:
+If you would rather update Office by hand, this script removes the MAU app and its launch agent, launch daemon and privileged helper in one step.
 
-   ```bash
-   sudo ./remove_ms_update.sh
-   ```
+## Quick start
 
-## Microsoft AutoUpdate Window
+```bash
+git clone https://github.com/mrsarac/microsoft-update-remover.git
+cd microsoft-update-remover
+sudo ./remove_ms_update.sh
+```
 
-![Microsoft AutoUpdate Window](Microfost-AutoUpdate-Window.png)
+The script needs root. Without `sudo` it stops with a message and changes nothing.
 
+## How it works
 
-## Components Removed
+1. Asks whether to check for Microsoft AutoUpdate components (`y` to continue).
+2. Prints a table of the four paths below with `[Exists]` or `[Not Found]` and their size.
+3. Asks again before deleting anything (`y` to continue).
+4. Runs `rm -rf` on each path and prints `REMOVED` or `ERROR` per line.
+
+Paths removed:
 
 - `/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app`
 - `/Library/LaunchAgents/com.microsoft.update.agent.plist`
 - `/Library/LaunchDaemons/com.microsoft.autoupdate.helper.plist`
 - `/Library/PrivilegedHelperTools/com.microsoft.autoupdate.helper`
 
+Answering anything other than `y` (or `e`) at either prompt cancels without changes.
+
+## Status / limits
+
+- A single script written in December 2024; no tests and no releases.
+- It does not unload the launch agent or daemon first; MAU processes that are already running may keep running until you log out or restart.
+- It only knows the four paths above. Other Microsoft files (Office apps, caches, preferences) are not touched.
+- Without MAU you will not get automatic Office updates. An Office installer or update may put MAU back.
+- To update Office manually, download updates from Microsoft: [Office for Mac update history](https://learn.microsoft.com/en-us/officeupdates/update-history-office-for-mac).
+
+The script is based on the steps in this [OS X Daily guide](https://osxdaily.com/2019/07/20/how-delete-microsoft-autoupdate-mac/).
+
 ## License
 
-This project is licensed under a free-to-use license. You are free to use, modify, and distribute this script. However, the authors are not responsible for any misuse or damage caused by this script. Use it at your own risk.
-
-Please note that by removing Microsoft AutoUpdate, you may not receive future updates for Microsoft Office products. The authors are not liable for any issues arising from the lack of updates.
-
-## References
-
-This script was created with reference to the guide on [OS X Daily](https://osxdaily.com/2019/07/20/how-delete-microsoft-autoupdate-mac/).
-
-## Note
-
-If you want to update Microsoft Office in the future, you can manually download updates from Microsoft's website:
-[Microsoft Office Updates](https://learn.microsoft.com/en-us/officeupdates/update-history-office-for-mac)
+MIT. See [LICENSE](LICENSE).
